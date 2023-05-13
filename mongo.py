@@ -48,3 +48,19 @@ def insert_user(username, password):
     }
     inserted_id = collection.insert_one(user_document).inserted_id
     print(f"Inserted ID: {inserted_id}")
+
+def check_user(username, password):
+    collection = hackathon_db.users
+    user = collection.find_one({"username": f"{username}"})
+    if user is None:
+        return False
+    elif user["password"] == password:
+        return True
+    else:
+        return False
+    
+def get_receipts(username) :
+    collection = hackathon_db.receipts
+    receipts = collection.find({"username": f"{username}"})
+    return receipts 
+

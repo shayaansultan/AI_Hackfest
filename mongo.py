@@ -7,7 +7,7 @@ load_dotenv(find_dotenv())
 password = os.environ.get("MONGODB_PWD")
 
 
-connection_string = f"mongodb+srv://YuvBindal:{password}@cluster0.3rteua8.mongodb.net/?retryWrites=true&w=majority"
+connection_string = f"mongodb+srv://yuvbindal:{password}@cluster0.xgajwdp.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(connection_string)
 
 #mongodb compass -> visual gui of database

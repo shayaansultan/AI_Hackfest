@@ -9,8 +9,9 @@ import os
 from datetime import datetime
 from pymongo import MongoClient
 import website.ocr as ocr
-
-from website import create_app, Algo, analytics, auth, mongo, views, ocr
+import website.analytics as analytics
+from website import create_app
+import website.mongo as mong
 
 
 app = create_app()
@@ -36,40 +37,62 @@ class UploadForm(FlaskForm):
 def get_file(filename):
     return send_from_directory(app.config['UPLOADED_PHOTOS_DEST'], filename)
 
+@app.route('/scan', methods=['POST'])
+def image_analysis():
+    user_email = session['username']
+    #result = mongo.db['fs.files'].find_one({"user_email": user_email})
+    image_path = 'RECIEPT2_2.png'
+    text_dict = ocr.ocr_main(image_path)
+    mong.insert_receipt(str(user_email), '2022-01-02', text_dict)
+    #print('Uploaded to database')
+
+    df = analytics.create_dataframe(user_email)
+
+    table_html = df.to_html(index=False)
+
+    return render_template('home.html', table_html=table_html)
+
+    #print(df)
+
+    # do something with text_dict, e.g., save it to a database
+    #print(text_dict)
+    
+
+
+    #return render_template('scan.html', text_dict=text_dict)
+
+    
+
+
 
 @app.route('/scan',methods =['GET','POST'])
 def upload_image():
     form = UploadForm()
     if form.validate_on_submit():
-        user_email = auth.get_username() # get user email from session or wherever you're storing it
-        file = form.photo.data  # get the uploaded file
-        filename = photos.save(file)  # save the file locally
-        file_url = url_for('get_file', filename=filename)  # get the URL of the saved file
-        
-        # create a document to insert into the database
-        metadata = {
-            'filename': filename,
-            'user_email': auth.get_username(),
-            'uploaded_at': datetime.utcnow()
-        }
-        file_id = mongo.db.receiptImages.insert_one(metadata).inserted_id  # insert the document and get the ID
-        file_ext = os.path.splitext(filename)[1]
-        # update the document with the binary data of the file
-        if file_id:
+        photo = form.photo.data
+        filename = photos.save(photo)
 
-            mongo.db.fs.files.update_one(
-                {'_id': file_id},
-                {'$set': {'contentType': 'image/png', 'metadata': metadata}},
-                upsert=True
-            )
-        else:
-            raise Exception("File could not be uploaded")
+        # Get file extension
+        file_ext = os.path.splitext(filename)[1].lower()
+
+        # Generate unique file ID
+        file_id = ObjectId()
+
+        # Save file to MongoDB
+        with open(os.path.join(app.config['UPLOADED_PHOTOS_DEST'], filename), 'rb') as f:
+            mongo.db.fs.files.insert_one({
+                '_id': file_id,
+                'contentType': f'image/{file_ext}',
+                'metadata': {
+                    'email': session.get('email'),
+                    'username': session.get('username'),
+                },
+            })
+            mongo.save_file(filename, f)
+
+        file_url = url_for('get_file', filename=filename)
     else:
         file_url = None
-
-    
-
-    
 
     return render_template('scan.html', form=form, file_url=file_url)
 

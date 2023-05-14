@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import mongo
+import website.mongo as mongo
 import datetime
 import openai
 from dotenv import load_dotenv, find_dotenv
@@ -21,43 +21,46 @@ def create_dataframe(username):
             product_price = products[product]
 
             df.loc[len(df.index)] = [username, date, product_name, product_price]
-    return df
+    
+    def categorizing_products(df) :
+        df['Category'] = ""
+        product_list = df['Product'].tolist()
+        string_list = str(product_list)
+        
+
+        # Set up the OpenAI API
+        load_dotenv(find_dotenv())
+        api_key = os.environ.get("API_KEY")
+
+        openai.api_key = api_key
+
+        # Call the API
+        response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+                {"role": "user", 
+                "content": f"Given the following list of items, kindly write what category should they fall under out of the following options: Household Essentials, Food and Beverage, Shopping, Entertainment, Miscellaneous. Give your answer in the following way: [product 1 category, product 2 category...]. Do not include anything else in your response. \n The list of items is: {string_list}"}
+                ]
+        )
+
+        gpt_response = response['choices'][0]['message']['content']
+        
+        gpt_response = gpt_response.strip("[").strip("]")
+
+        categories_list = gpt_response.split(", ")
+
+        df['Category'] = ''
+        df['Category'] = categories_list
+        
+        return df
+    
+    return categorizing_products(df)
 
 #print(create_dataframe("yuvbindal"))
 
-def categorizing_products(df) :
-    df['Category'] = ""
-    product_list = df['Product'].tolist()
-    string_list = str(product_list)
-    
 
-    # Set up the OpenAI API
-    load_dotenv(find_dotenv())
-    api_key = os.environ.get("API_KEY")
 
-    openai.api_key = api_key
-
-    # Call the API
-    response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-            {"role": "user", 
-            "content": f"Given the following list of items, kindly write what category should they fall under out of the following options: Household Essentials, Food and Beverage, Shopping, Entertainment, Miscellaneous. Give your answer in the following way: [product 1 category, product 2 category...]. Do not include anything else in your response. \n The list of items is: {string_list}"}
-            ]
-    )
-
-    gpt_response = response['choices'][0]['message']['content']
-    
-    gpt_response = gpt_response.strip("[").strip("]")
-
-    categories_list = gpt_response.split(", ")
-
-    df['Category'] = ''
-    df['Category'] = categories_list
-    
-    return df
-
-df = categorizing_products(create_dataframe("yuvbindal"))
+#df = categorizing_products(create_dataframe("yuvbindal"))
 
 def get_category_totals(df):
     category_totals = df.groupby('Category')['Expense'].sum().to_dict()

@@ -14,7 +14,6 @@ from pymongo import MongoClient
 import ocr
 
 
-
 app = create_app()
 
 app.config['MONGO_URI'] = 'mongodb+srv://yuvbindal:Xww24MOIaDv7Xc3t@cluster0.xgajwdp.mongodb.net/hackathon?retryWrites=true&w=majority'

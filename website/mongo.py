@@ -38,16 +38,22 @@ def insert_receipt(username, date, product_dict):
         "products": product_dict
     }
     inserted_id = collection.insert_one(receipt_document).inserted_id
-    print(f"Inserted ID: {inserted_id}")
+    #print(f"Inserted ID: {inserted_id}")
+
+#insert_receipt("yuvbindal", "2023-11-10", {"mixed fruits": 19.99, "laundry detergent": 9.99, "milk": 3.99})
+#insert_receipt("yuvbindal", "2020-11-20", {"shirt": 14.99, "jeans": 9.99})
+#insert_receipt("yuvbindal", "2020-11-30", {"video games": 5.99, "books": 4.99})
 
 def insert_user(username, password):
-    collection = hackathon_db.users
+    collection = hackathon_db.login
     user_document = {
         "username": f"{username}",
         "password": f"{password}"
     }
     inserted_id = collection.insert_one(user_document).inserted_id
-    print(f"Inserted ID: {inserted_id}")
+    #print(f"Inserted ID: {inserted_id}")
+
+
 
 def check_user(username, password):
     collection = hackathon_db.users
@@ -63,4 +69,5 @@ def get_receipts(username) :
     collection = hackathon_db.receipts
     receipts = collection.find({"username": f"{username}"})
     return receipts 
+
 

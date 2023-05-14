@@ -1,0 +1,90 @@
+{% extends "base.html" %} {% block title %} Scan {% endblock %}
+
+
+
+
+
+{% block content %}
+<main>
+  <section>
+    <h1>Scan a Receipt</h1>
+    <p>Upload a receipt and we'll scan it for you.</p>
+    <form method="post" enctype="multipart/form-data" id="upload-form">
+      {{ form.hidden_tag() }}
+      {% for error in form.photo.errors %}
+        <span style="color: red;">{{ error }}</span>
+      {% endfor %}
+
+      <div class="row justify-content-center">
+        <div class="col-auto">
+          {{ form.photo(class="form-control") }}
+        </div>
+        <div class="col-auto">
+          {{ form.submit(class="btn btn-success") }}
+        </div>
+      </div>
+    </form>
+
+    {% if file_url %}
+    <div class="mt-5">
+      <img src="{{ file_url }}" style="width: 60% height= 50%;">
+    </div>
+    {% endif %}
+
+  </section>
+</main>
+{% endblock %}
+
+
+
+{% block style %}
+<style>
+/* Main content styles */
+  
+  main {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4vh 4vw;
+  }
+  
+  h1 {
+    font-size: 5vw;
+    margin-bottom: 2vh;
+  }
+  
+  p {
+    font-size: 3vw;
+    margin-bottom: 4vh;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 4vh;
+  }
+  
+  input[type="file"] {
+    margin-bottom: 2vh;
+  }
+  
+  button[type="submit"] {
+    padding: 1vh 2vw;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 2vw;
+    transition: all 0.2s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #fff;
+    color: #333;
+  }
+</style>
+
+{% endblock %}

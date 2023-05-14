@@ -1,8 +1,11 @@
 from flask import Flask
 
+
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'AI_Hackathon_2023'
+
+
 
     from .views import views
     from .auth import auth

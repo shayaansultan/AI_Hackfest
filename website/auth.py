@@ -1,5 +1,7 @@
 from flask import Blueprint, Flask, render_template, request, session
 from pymongo import MongoClient
+import mongo
+
 loggedIn = False
 client = MongoClient('mongodb+srv://yuvbindal:Xww24MOIaDv7Xc3t@cluster0.xgajwdp.mongodb.net/?retryWrites=true&w=majority')
 db = client['hackathon']
@@ -7,16 +9,19 @@ collection = db['login']
 
 
 
+
+
 auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         
         # check if user exists in the database
-        user = collection.find_one({'username': username, 'password': password})
+        user = mongo.check_user(username, password)
         if user:
             session['LoggedIn'] =True
             return render_template('home.html')
@@ -46,15 +51,8 @@ def sign_up():
         # insert new user into the database
         collection.insert_one({'username': username, 'password': password, 'email': email})
         session['LoggedIn'] =True
-      
+
         return render_template('home.html')
     
     return render_template('sign_up.html')
-
-@auth.route('/scan')
-def scan():
-    return render_template('scan.html')
-
-
-
 

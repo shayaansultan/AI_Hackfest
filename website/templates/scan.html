@@ -1,0 +1,70 @@
+{% extends "base.html" %} {% block title %} Scan {% endblock %}
+
+
+
+{% block content %}
+<main>
+    <section>
+      <img id="receipt" width="400" height="300" src="image.jpg">
+      <h1>Scan a Receipt</h1>
+      <p>Upload a receipt and we'll scan it for you.</p>
+      <form id="upload-form">
+        <input type="file" id="image-input" accept="image/png, image/jpeg">
+        <button type="submit" id="scan-button">Upload</button>
+      </form>
+    </section>
+</main>
+{% endblock %}
+
+
+{% block style %}
+<style>
+/* Main content styles */
+  
+  main {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4vh 4vw;
+  }
+  
+  h1 {
+    font-size: 5vw;
+    margin-bottom: 2vh;
+  }
+  
+  p {
+    font-size: 3vw;
+    margin-bottom: 4vh;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 4vh;
+  }
+  
+  input[type="file"] {
+    margin-bottom: 2vh;
+  }
+  
+  button[type="submit"] {
+    padding: 1vh 2vw;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 2vw;
+    transition: all 0.2s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #fff;
+    color: #333;
+  }
+</style>
+
+{% endblock %}

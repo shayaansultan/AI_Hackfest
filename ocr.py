@@ -94,7 +94,7 @@ gpt_response = response['choices'][0]['message']['content']
 def text_to_dict(text):
     text = text.split("\n")
     text = [i.split(":") for i in text]
-    final_dict = {i[0].strip().lowercase():i[1].strip() for i in text}
+    final_dict = {i[0].strip():i[1].strip() for i in text}
     return final_dict
 
 

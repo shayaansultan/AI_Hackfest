@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import mongo
+import website.mongo as mongo
 import datetime
 import openai
 from dotenv import load_dotenv, find_dotenv

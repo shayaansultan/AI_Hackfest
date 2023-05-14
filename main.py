@@ -8,8 +8,10 @@ from bson import ObjectId
 import os
 from datetime import datetime
 from pymongo import MongoClient
-import ocr
-import analytics
+import website.ocr as ocr
+import website.analytics as analytics
+from website import create_app
+import website.mongo as mong
 
 
 app = create_app()

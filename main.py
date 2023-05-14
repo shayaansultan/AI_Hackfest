@@ -1,5 +1,5 @@
-from website import create_app
-from flask import Blueprint, Flask, render_template, request, session, send_from_directory, url_for
+from website import create_app, mongo
+from flask import Blueprint, Flask, render_template, request, session, send_from_directory, url_for, session
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import SubmitField
@@ -8,6 +8,8 @@ from flask_uploads import UploadSet, IMAGES, configure_uploads
 from bson import ObjectId
 import os
 from datetime import datetime
+import website.mongo as mong
+from website.auth import get_username
 
 app = create_app()
 
@@ -37,7 +39,7 @@ def get_file(filename):
 def upload_image():
     form = UploadForm()
     if form.validate_on_submit():
-        user_email = session.get('user_email')  # get user email from session or wherever you're storing it
+        user_email =  get_username() # get user email from session or wherever you're storing it
         file = form.photo.data  # get the uploaded file
         filename = photos.save(file)  # save the file locally
         file_url = url_for('get_file', filename=filename)  # get the URL of the saved file
@@ -45,7 +47,7 @@ def upload_image():
         # create a document to insert into the database
         metadata = {
             'filename': filename,
-            'user_email': user_email,
+            'user_email': get_username(),
             'uploaded_at': datetime.utcnow()
         }
         file_id = mongo.db.receiptImages.insert_one(metadata).inserted_id  # insert the document and get the ID

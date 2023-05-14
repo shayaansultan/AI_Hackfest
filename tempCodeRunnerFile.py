@@ -1,1 +1,1 @@
-from flask_uploads import UploadSet, IMAGES, configure_uploads
+Users/yuvvvvv/Desktop/MLH_AI/AI_Hackfest/website/static/RECIEPT1_1.png

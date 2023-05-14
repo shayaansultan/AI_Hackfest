@@ -104,3 +104,4 @@ def ocr_main(image_path) :
     gpt_response = gpt_convert(receipt_text)
     dict_response = text_to_dict(gpt_response)
     return dict_response
+

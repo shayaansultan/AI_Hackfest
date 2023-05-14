@@ -69,7 +69,7 @@ def get_category_totals(df):
 #print("Category Totals:", get_category_totals(df))
 
 def get_category_percentages(df):
-    percentages = (df.groupby('Category')['Expense'].sum() / df['Expense'].sum() * 100).round(1).to_dict()
+    percentages = (float(df.groupby('Category')['Expense']).sum() / float(df['Expense']).sum() * 100).round(1).to_dict()
     return percentages
 
 #print("Category Percentages:", get_category_percentages(df))
@@ -86,6 +86,6 @@ def get_category_pie(df):
     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
     ax1.axis('equal')
     plt.title("Category Breakdown")
-    return plt.show()
+    fig1.savefig('static/images/category_pie.png')
 
 #get_category_pie(df)

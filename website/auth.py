@@ -1,6 +1,6 @@
 from flask import Blueprint, Flask, render_template, request, session
 from pymongo import MongoClient
-import mongo
+from AI_Hackfest.website import mongo
 
 loggedIn = False
 client = MongoClient('mongodb+srv://yuvbindal:Xww24MOIaDv7Xc3t@cluster0.xgajwdp.mongodb.net/?retryWrites=true&w=majority')

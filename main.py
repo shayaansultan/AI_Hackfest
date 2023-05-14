@@ -71,9 +71,8 @@ def upload_image():
 
     
 
+    return render_template('scan.html', form=form, file_url=file_url)
 
-
-    return render_template('scan.html', form=form, file_url=file_url, text_dict = ocr.ocr_main(file_url))
 
 if __name__ == '__main__':
     app.run(debug=True)

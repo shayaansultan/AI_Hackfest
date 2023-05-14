@@ -1,4 +1,3 @@
-from website import create_app, mongo
 from flask import Blueprint, Flask, render_template, request, session, send_from_directory, url_for, session
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
@@ -8,8 +7,6 @@ from flask_uploads import UploadSet, IMAGES, configure_uploads
 from bson import ObjectId
 import os
 from datetime import datetime
-import website.mongo as mong
-from website.auth import get_username
 from pymongo import MongoClient
 import ocr
 import analytics

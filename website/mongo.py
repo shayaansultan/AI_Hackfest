@@ -45,7 +45,7 @@ def insert_receipt(username, date, product_dict):
 #insert_receipt("yuvbindal", "2020-11-30", {"video games": 5.99, "books": 4.99})
 
 def insert_user(username, password):
-    collection = hackathon_db.users
+    collection = hackathon_db.login
     user_document = {
         "username": f"{username}",
         "password": f"{password}"

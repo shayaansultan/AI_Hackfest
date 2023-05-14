@@ -37,44 +37,49 @@ class UploadForm(FlaskForm):
 def get_file(filename):
     return send_from_directory(app.config['UPLOADED_PHOTOS_DEST'], filename)
 
+@app.route('/scan', methods=['POST'])
+def image_analysis():
+    user_email = session['username']
+    #result = mongo.db['fs.files'].find_one({"user_email": user_email})
+    image_path = f'/Users/yuvvvvv/Desktop/MLH_AI/AI_Hackfest/website/static/RECIEPT1_1.png'
+    text_dict = ocr.ocr_main(image_path)
+    # do something with text_dict, e.g., save it to a database
+    return render_template('scan.html', text_dict=text_dict)
+
+
+
 
 @app.route('/scan',methods =['GET','POST'])
 def upload_image():
     form = UploadForm()
     if form.validate_on_submit():
-        user_email =  get_username() # get user email from session or wherever you're storing it
-        file = form.photo.data  # get the uploaded file
-        filename = photos.save(file)  # save the file locally
-        file_url = url_for('get_file', filename=filename)  # get the URL of the saved file
-        
-        # create a document to insert into the database
-        metadata = {
-            'filename': filename,
-            'user_email': get_username(),
-            'uploaded_at': datetime.utcnow()
-        }
-        file_id = mongo.db.receiptImages.insert_one(metadata).inserted_id  # insert the document and get the ID
-        file_ext = os.path.splitext(filename)[1]
-        # update the document with the binary data of the file
-        if file_id:
+        photo = form.photo.data
+        filename = photos.save(photo)
 
-            mongo.db.fs.files.update_one(
-                {'_id': file_id},
-                {'$set': {'contentType': 'image/png', 'metadata': metadata}},
-                upsert=True
-            )
-        else:
-            raise Exception("File could not be uploaded")
+        # Get file extension
+        file_ext = os.path.splitext(filename)[1].lower()
+
+        # Generate unique file ID
+        file_id = ObjectId()
+
+        # Save file to MongoDB
+        with open(os.path.join(app.config['UPLOADED_PHOTOS_DEST'], filename), 'rb') as f:
+            mongo.db.fs.files.insert_one({
+                '_id': file_id,
+                'contentType': f'image/{file_ext}',
+                'metadata': {
+                    'email': session.get('email'),
+                    'username': session.get('username'),
+                },
+            })
+            mongo.save_file(filename, f)
+
+        file_url = url_for('get_file', filename=filename)
     else:
         file_url = None
 
-    
-
-    
-
-
-
     return render_template('scan.html', form=form, file_url=file_url)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,9 +1,5 @@
 {% extends "base.html" %} {% block title %} Scan {% endblock %}
 
-
-
-
-
 {% block content %}
 <main>
   <section>
@@ -22,25 +18,62 @@
         <div class="col-auto">
           {{ form.submit(class="btn btn-success") }}
         </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary">Scan</button>
+        </div>
       </div>
     </form>
 
     {% if file_url %}
-    <div class="mt-5">
-      <img src="{{ file_url }}" style="width: 60% height= 50%;">
+    <div class="mt-5" style="display: flex; align-items: center;">
+      <div style="flex-basis: 50%;">
+        <img src="{{ file_url }}" style="width: 100%;">
+      </div>
+      <div style="flex-basis: 50%;">
+        <textarea id="text-field" class="form-control square-input">{{text_dict}}</textarea>
+      </div>
     </div>
     {% endif %}
+
+
 
   </section>
 </main>
 {% endblock %}
 
 
-
 {% block style %}
 <style>
 /* Main content styles */
-  
+  .scan-result {
+    display: grid;
+    grid-template-columns: 60% auto;
+    align-items: center;
+  }
+  .square-input {
+  aspect-ratio: 1;
+  }
+
+  .text-field-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  label {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+
+  textarea {
+    height: 300px;
+    font-size: 1.2em;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+  }
+
   main {
     min-height: 80vh;
     display: flex;

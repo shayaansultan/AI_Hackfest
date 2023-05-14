@@ -71,5 +71,3 @@ def sign_up():
     
     return render_template('sign_up.html')
 
-def get_username_password():
-    return USERNAME, PASSWORD

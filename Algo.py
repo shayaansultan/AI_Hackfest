@@ -1,6 +1,6 @@
 from flask import session
 from pymongo import MongoClient
-from AI_Hackfest import ocr
+import ocr
 
 
 client = MongoClient('mongodb+srv://yuvbindal:Xww24MOIaDv7Xc3t@cluster0.xgajwdp.mongodb.net/?retryWrites=true&w=majority')

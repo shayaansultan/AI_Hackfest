@@ -70,10 +70,7 @@ def upload_image():
 
     
 
-     
-    text_dict = ocr.ocr_main(file_url)
-
-
+    
 
 
 

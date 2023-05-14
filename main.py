@@ -9,7 +9,7 @@ import os
 from datetime import datetime
 from pymongo import MongoClient
 import website.ocr as ocr
-import website.analytics as analytics
+import analytics as analytics
 from website import create_app
 import website.mongo as mong
 

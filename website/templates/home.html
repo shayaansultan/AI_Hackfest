@@ -7,8 +7,9 @@
       <h1  class="center">Purchases</h1>
       <div class="purchase">
         <h3 class="sub_center">Finances</h3> 
-
+        <div class="table">
         {{table_html|safe }}
+        </div>
         
 
   
@@ -46,6 +47,15 @@
     .row_elem {
         flex-basis: 25%;
         text-align: center;
+    }
+
+    .table {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /*increase padding*/
+        padding: 1rem;
+
     }
 </style>
 {% endblock %}

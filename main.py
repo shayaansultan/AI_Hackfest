@@ -11,7 +11,7 @@ from datetime import datetime
 import website.mongo as mong
 from website.auth import get_username
 
-
+print('hi')
 
 
 app = create_app()

@@ -74,7 +74,7 @@ def upload_image():
 
 
 
-    return render_template('scan.html', form=form, file_url=file_url, text_dict= text_dict)
+    return render_template('scan.html', form=form, file_url=file_url)
 
 if __name__ == '__main__':
     app.run(debug=True)

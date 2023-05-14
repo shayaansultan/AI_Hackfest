@@ -10,8 +10,9 @@ import os
 from datetime import datetime
 import website.mongo as mong
 from website.auth import get_username
+from pymongo import MongoClient
+import ocr
 
-print('hi')
 
 
 app = create_app()
@@ -68,7 +69,16 @@ def upload_image():
     else:
         file_url = None
 
-    return render_template('scan.html', form=form, file_url=file_url)
+    
+
+     
+    text_dict = ocr.ocr_main(file_url)
+
+
+
+
+
+    return render_template('scan.html', form=form, file_url=file_url, text_dict= text_dict)
 
 if __name__ == '__main__':
     app.run(debug=True)

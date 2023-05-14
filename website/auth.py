@@ -6,7 +6,8 @@ loggedIn = False
 client = MongoClient('mongodb+srv://yuvbindal:Xww24MOIaDv7Xc3t@cluster0.xgajwdp.mongodb.net/?retryWrites=true&w=majority')
 db = client['hackathon']
 collection = db['login']
-
+global USERNAME 
+global PASSWORD
 
 
 
@@ -24,6 +25,8 @@ def login():
         user = mongo.check_user(username, password)
         if user:
             session['LoggedIn'] =True
+            USERNAME = username
+            PASSWORD = password
             return render_template('home.html')
         else:
             return render_template('login.html', message='Invalid username or password!')
@@ -56,3 +59,5 @@ def sign_up():
     
     return render_template('sign_up.html')
 
+def get_username_password():
+    return USERNAME, PASSWORD

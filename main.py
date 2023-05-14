@@ -12,6 +12,7 @@ import website.mongo as mong
 from website.auth import get_username
 from pymongo import MongoClient
 import ocr
+import analytics
 
 
 app = create_app()
@@ -41,11 +42,27 @@ def get_file(filename):
 def image_analysis():
     user_email = session['username']
     #result = mongo.db['fs.files'].find_one({"user_email": user_email})
-    image_path = f'/Users/yuvvvvv/Desktop/MLH_AI/AI_Hackfest/website/static/RECIEPT1_1.png'
+    image_path = 'RECIEPT2_2.png'
     text_dict = ocr.ocr_main(image_path)
-    # do something with text_dict, e.g., save it to a database
-    return render_template('scan.html', text_dict=text_dict)
+    mong.insert_receipt(str(user_email), '2022-01-02', text_dict)
+    #print('Uploaded to database')
 
+    df = analytics.create_dataframe(user_email)
+
+    table_html = df.to_html(index=False)
+
+    return render_template('home.html', table_html=table_html)
+
+    #print(df)
+
+    # do something with text_dict, e.g., save it to a database
+    #print(text_dict)
+    
+
+
+    #return render_template('scan.html', text_dict=text_dict)
+
+    
 
 
 

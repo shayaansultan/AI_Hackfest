@@ -6,17 +6,11 @@
     <section >
       <h1  class="center">Purchases</h1>
       <div class="purchase">
-        <h3 class="sub_center">Finances</h3>
+        <h3 class="sub_center">Finances</h3> 
 
-        <div class="transactions">
-          <div class="transaction-row">
-            <span class="row_elem" style="color: lightblue">MM/DD/YYYY</span>
-            <span class="row_elem" style="color: black">product-holder</span>
-            <span class="row_elem" style="color: black">price-holder</span>
-            <span class="row_elem" style="color: black">category-holder</span>
-          </div>
-          <!-- Add more transaction rows as needed -->
-        </div>
+        {{table_html|safe }}
+
+  
       </div>
     </section>
 

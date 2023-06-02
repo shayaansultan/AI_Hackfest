@@ -67,7 +67,7 @@ The AI Hackfest 2023 Receipt Analyzer project is open-source and available under
 
 ## Acknowledgements
 
-We would like to thank Major League Hackers (MLH) for organizing the AI Hackfest 2023 and providing the opportunity to develop this project.
+We would like to thank Major League Hackers (MLH) for organizing the AI Hackfest 2023 and providing the opportunity to develop this project. I would also like to thank @YuvBindal for his contributions to this project.
 
 Special thanks to the creators and maintainers of the following libraries used in this project:
 
